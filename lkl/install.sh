@@ -108,7 +108,7 @@ timeout client 50000
 timeout server 50000
 
 frontend proxy-in
-bind *:9000-9999
+bind *:23-65535
 default_backend proxy-out
 
 backend proxy-out
@@ -131,7 +131,7 @@ ip link set lkl-tap up
 sysctl -w net.ipv4.ip_forward=1
 iptables -P FORWARD ACCEPT 
 iptables -t nat -A POSTROUTING -o venet0 -j MASQUERADE
-iptables -t nat -A PREROUTING -i venet0 -p tcp --dport 9000:9999 -j DNAT --to-destination 10.0.0.2
+iptables -t nat -A PREROUTING -i venet0 -p tcp --dport 23:65535 -j DNAT --to-destination 10.0.0.2
 
 nohup /root/lkl/lkl.sh &
 
